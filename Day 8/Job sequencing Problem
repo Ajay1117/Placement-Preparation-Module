@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+struct Job {
+   int id; // Job Id 
+   int dead; // Deadline of job 
+   int profit; // Profit if job is over before or on deadline 
+};
+
+bool static comparison(Job a, Job b) {
+   return (a.profit > b.profit);
+}
+
+vector<int> jobScheduling(vector<vector<int>>& jobs) {
+   int n = jobs.size();
+   vector<Job> arr(n);
+   for (int i = 0; i < n; i++) {
+      arr[i].id = jobs[i][0];
+      arr[i].dead = jobs[i][1];
+      arr[i].profit = jobs[i][2];
+   }
+
+   sort(arr.begin(), arr.end(), comparison);
+
+   int maxi = arr[0].dead;
+   for (int i = 1; i < n; i++) {
+      maxi = max(maxi, arr[i].dead);
+   }
+
+   vector<int> slot(maxi + 1, -1);
+   int countJobs = 0, jobProfit = 0;
+
+//    priority_queue<int> pq; // min heap to store deadlines
+
+   for (int i = 0; i < n; i++) {
+      for (int j = arr[i].dead; j > 0; j--) {
+         if (slot[j] == -1) {
+            slot[j] = i;
+            countJobs++;
+            jobProfit += arr[i].profit;
+            break;
+         }
+      }
+   }
+   vector<int> ans;
+   ans.push_back(countJobs);
+   ans.push_back(jobProfit);
+   return ans;
+}
