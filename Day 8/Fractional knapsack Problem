@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct items {
+   int weight;
+   int value;
+};
+
+bool static comp(items a, items b) {
+         double r1 = (double) a.value / (double) a.weight;
+         double r2 = (double) b.value / (double) b.weight;
+         return r1 > r2;
+      }
+      
+       
+double maximumValue (vector<pair<int, int>>& items, int n, int w)
+{
+    // Write your code here.
+    // ITEMS contains {weight, value} pairs.
+    sort(items.begin(), items.end(), comp);
+
+      int curWeight = 0;
+      double finalvalue = 0.0;
+
+      for (int i = 0; i < n; i++) {
+
+         if (curWeight + items[i].weight <= w) {
+            curWeight += items[i].weight;
+            finalvalue += items[i].value;
+         } else {
+            int remain = w - curWeight;
+            finalvalue += (items[i].value / (double) arr[i].weight) * (double) remain;
+            break;
+         }
+      }
+
+      return finalvalue;
+}
